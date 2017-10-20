@@ -1,0 +1,6 @@
+{
+  "DBUSER": "SA",
+  "DBPASSWORD": "",
+  "DBHOST": "hsqldb:9001",
+  "DBNAME": "monolith"
+}
