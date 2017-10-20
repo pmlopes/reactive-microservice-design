@@ -8,8 +8,9 @@ services:
     image: java:alpine
     volumes:
       - ./db/target/hsqldb.jar:/var/hsqldb.jar:z
-      - ./db/data:/var/data:Z
-    command: java -cp /var/hsqldb.jar org.hsqldb.Server -database.0 file:/var/data/monolith -dbname.0 monolith
+      - ./db/data/monolith.properties:/var/lib/monolith.properties:Z
+      - ./db/data/monolith.script:/var/lib/monolith.script:Z
+    command: java -cp /var/hsqldb.jar org.hsqldb.Server -database.0 file:/var/lib/monolith -dbname.0 monolith
     ports:
       - 9001:9001
 
@@ -18,16 +19,18 @@ services:
     image: java:alpine
     volumes:
       - ./db/target/hsqldb.jar:/var/hsqldb.jar:z
-      - ./db/data:/var/data:Z
-    command: java -cp /var/hsqldb.jar org.hsqldb.Server -database.0 file:/var/data/account -dbname.0 account
+      - ./db/data/account.properties:/var/lib/account.properties:Z
+      - ./db/data/account.script:/var/lib/account.script:Z
+    command: java -cp /var/hsqldb.jar org.hsqldb.Server -database.0 file:/var/lib/account -dbname.0 account
 
   # A unique database server to the transaction microservice
   hsqldb-transaction:
     image: java:alpine
     volumes:
       - ./db/target/hsqldb.jar:/var/hsqldb.jar:z
-      - ./db/data:/var/data:Z
-    command: java -cp /var/hsqldb.jar org.hsqldb.Server -database.0 file:/var/data/transaction -dbname.0 transaction
+      - ./db/data/transaction.properties:/var/lib/transaction.properties:Z
+      - ./db/data/transaction.script:/var/lib/transaction.script:Z
+    command: java -cp /var/hsqldb.jar org.hsqldb.Server -database.0 file:/var/lib/transaction -dbname.0 transaction
 
   # the runnable account microservice
   account:
@@ -44,6 +47,10 @@ services:
       DBNAME: account
       DBUSERNAME: postgres
       DBPASSWORD: password
+    depends_on:
+#      # replaced as microservices should have their own data store
+#      - hsqldb
+      - hsqldb-account
 
   # the runnable transaction microservice
   transaction:
@@ -60,6 +67,10 @@ services:
       DBNAME: account
       DBUSERNAME: postgres
       DBPASSWORD: password
+    depends_on:
+#      # replaced as microservices should have their own data store
+#      - hsqldb
+      - hsqldb-transaction
 
   # the web frontend application and API entrypoint
   web:
@@ -72,6 +83,9 @@ services:
     environment:
       CLIENTID: 598d9e50aae1d575926b
       CLIENTSECRET: dc6ef4fc7e76c8becbd4d3369b284499ef54632a
+    depends_on:
+      - account
+      - transaction
 
 #  # The initial monolith
 #  monolith:
