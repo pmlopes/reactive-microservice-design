@@ -1,0 +1,7 @@
+{
+  "DBUSER": "SA",
+  "DBPASSWORD": "",
+  "//comment": "TODO: (REFACTOR #11)",
+  "DBHOST": "hsqldb:9001",
+  "DBNAME": "monolith"
+}
