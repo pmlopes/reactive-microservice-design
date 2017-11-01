@@ -40,7 +40,7 @@ services:
 #    image: java:alpine
 #    volumes:
 #      # mount the hand maintained config file in the container
-#      - ./account/src/conf/config.json:/var/config.json:z
+#      - ./account/src/main/conf/config.json:/var/config.json:z
 #      - ./account/target/account-1.0.0-fat.jar:/var/app.jar:z
 #    # run the application with the provider configuration json
 #    command: java -jar /var/app.jar -conf /var/config.json -cluster
@@ -59,7 +59,7 @@ services:
 #    image: java:alpine
 #    volumes:
 #      # mount the hand maintained config file in the container
-#      - ./transaction/src/conf/config.json:/var/config.json:z
+#      - ./transaction/src/main/conf/config.json:/var/config.json:z
 #      - ./transaction/target/transaction-1.0.0-fat.jar:/var/app.jar:z
 #    # run the application with the provider configuration json
 #    command: java -jar /var/app.jar -conf /var/config.json -cluster
