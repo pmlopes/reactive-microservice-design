@@ -46,7 +46,7 @@
     </dependency>
     <dependency>
       <groupId>io.vertx</groupId>
-      <artifactId>vertx-hazelcast</artifactId>
+      <artifactId>vertx-infinispan</artifactId>
       <version>3.5.0</version>
     </dependency>
     <dependency>
